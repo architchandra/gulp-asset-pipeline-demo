@@ -1,0 +1,8 @@
+# Package Managers
+node_modules/
+
+
+
+# OS Cruft
+.DS_Store
+Thumbs.db
