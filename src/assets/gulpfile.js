@@ -1,5 +1,5 @@
 const gulp = require('gulp');
-const gulp_config = require('./gulpconfig');
+const config = require('./gulpconfig');
 const postcss = require('gulp-postcss');
 const rename = require('gulp-rename');
 
@@ -16,7 +16,11 @@ Object.entries(config.tasks.css).forEach(([task_name, task_config]) => {
     
     exports[task_name] = () => {
         return gulp
-            .src(task_name.src)
-            .pipe(rename(task_name.dest_name))
+            .src(task_config.src)
+            .pipe(rename(task_config.dest))
+            .pipe(postcss([
+                require('postcss-import'),
+            ]))
+            .pipe(gulp.dest(config.directories.build));
     };
 });
