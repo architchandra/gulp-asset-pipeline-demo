@@ -7,6 +7,7 @@ var config = {};
 // Build directory
 config.directories = {};
 config.directories.build = '../../public/build';
+// var buildDirectory = config.directories.build;
 
 
 
@@ -18,6 +19,10 @@ config.tasks = {
             extra_config: {
                 tailwind: 'tailwind.config.js',
             },
+            watch: [
+                'css/**/*.css',
+                'tailwind.config.js',
+            ],
         },
     },
 };

@@ -6,6 +6,7 @@ const rename = require('gulp-rename');
 
 
 var css_tasks = [];
+var watch_files = [];
 
 
 
@@ -13,6 +14,12 @@ var css_tasks = [];
 Object.entries(config.tasks.css).forEach(([task_name, task_config]) => {
     task_name = 'css-' + task_name;
     css_tasks.push(task_name);
+
+    watch_files.push([
+        task_name,
+        task_config.watch,
+        task_config.watch_config || {},
+    ]);
 
     exports[task_name] = () => {
         return gulp
@@ -31,3 +38,20 @@ Object.entries(config.tasks.css).forEach(([task_name, task_config]) => {
             .pipe(gulp.dest(config.directories.build, { sourcemaps: '.' }));
     };
 });
+
+
+
+// Watch tasks
+function watch() {
+    watch_files.forEach(([task_name, task_files, task_watch_config = {}]) => {
+        gulp.watch(
+            task_files,
+            Object.assign({ ignoreInitial: false }, task_watch_config),
+            gulp.series(task_name)
+        );
+    });
+}
+
+
+
+exports.default = watch;
