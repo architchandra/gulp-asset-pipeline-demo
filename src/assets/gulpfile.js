@@ -1,5 +1,5 @@
 const gulp = require('gulp');
-const config = require('./gulpconfig');
+const config = require('./gulp.config');
 const postcss = require('gulp-postcss');
 const rename = require('gulp-rename');
 
