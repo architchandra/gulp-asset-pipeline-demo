@@ -6,7 +6,7 @@ var config = {};
 
 // Build directory
 config.directories = {};
-config.directories.build = '../public/build';
+config.directories.build = '../../public/build';
 
 
 
