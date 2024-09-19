@@ -7,7 +7,9 @@ var config = {};
 // Build directory
 config.directories = {};
 config.directories.build = '../../public/build';
-// var buildDirectory = config.directories.build;
+
+// Naming config
+config.minify_suffix = '.min';
 
 
 
@@ -25,6 +27,18 @@ config.tasks = {
             ],
         },
     },
+
+    js: {
+        alpine: {
+            src: [
+                '../../node_modules/alpinejs/dist/cdn.js',
+            ],
+            dest: 'alpine_bundle.js',
+            watch: [
+                '../../node_modules/alpinejs/dist/cdn.js',
+            ],
+        },
+    }
 };
 
 

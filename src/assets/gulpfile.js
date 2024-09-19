@@ -3,9 +3,12 @@ const config = require('./gulp.config');
 const postcss = require('gulp-postcss');
 const rename = require('gulp-rename');
 
+const build_directory = config.directories.build;
+
 
 
 var css_tasks = [];
+var js_tasks = [];
 var watch_files = [];
 
 
@@ -36,6 +39,32 @@ Object.entries(config.tasks.css).forEach(([task_name, task_config]) => {
                 ].filter((plugin) => !!plugin)
             ))
             .pipe(gulp.dest(config.directories.build, { sourcemaps: '.' }));
+    };
+});
+
+
+
+// JS Tasks
+Object.entries(config.tasks.js).forEach(([task_name, task_config]) => {
+    const concat = require('gulp-concat');
+    const uglify = require('gulp-uglify');
+
+    task_name = 'js-' + task_name;
+    js_tasks.push(task_name);
+    watch_files.push([
+        task_name,
+        task_config.watch,
+        task_config.watch_config || {},
+    ]);
+
+    exports[task_name] = () => {
+        return gulp
+            .src(task_config.src, { sourcemaps: true })
+            .pipe(concat(task_config.dest))
+            .pipe(gulp.dest(build_directory))
+            .pipe(uglify())
+            .pipe(rename({ suffix: config.minify_suffix }))
+            .pipe(gulp.dest(build_directory, { sourcemaps: '.' }))
     };
 });
 
