@@ -41,6 +41,11 @@ Object.entries(config.tasks.css).forEach(([task_name, task_config]) => {
 
 
 
+// Build task
+exports['build'] = gulp.series(css_tasks.map((task) => exports[task]));
+
+
+
 // Watch tasks
 function watch() {
     watch_files.forEach(([task_name, task_files, task_watch_config = {}]) => {
