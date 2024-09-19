@@ -13,14 +13,21 @@ var css_tasks = [];
 Object.entries(config.tasks.css).forEach(([task_name, task_config]) => {
     task_name = 'css-' + task_name;
     css_tasks.push(task_name);
-    
+
     exports[task_name] = () => {
         return gulp
             .src(task_config.src)
             .pipe(rename(task_config.dest))
-            .pipe(postcss([
-                require('postcss-import'),
-            ]))
+            .pipe(postcss(
+                [
+                    require('postcss-import'),
+                    require('tailwindcss/nesting'),
+                    task_config.extra_config?.tailwind
+                        ? require('tailwindcss')(task_config.extra_config.tailwind)
+                        : false,
+                    require('autoprefixer'),
+                ].filter((plugin) => !!plugin)
+            ))
             .pipe(gulp.dest(config.directories.build));
     };
 });
