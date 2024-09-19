@@ -16,7 +16,7 @@ Object.entries(config.tasks.css).forEach(([task_name, task_config]) => {
 
     exports[task_name] = () => {
         return gulp
-            .src(task_config.src)
+            .src(task_config.src, { sourcemaps: true })
             .pipe(rename(task_config.dest))
             .pipe(postcss(
                 [
@@ -28,6 +28,6 @@ Object.entries(config.tasks.css).forEach(([task_name, task_config]) => {
                     require('autoprefixer'),
                 ].filter((plugin) => !!plugin)
             ))
-            .pipe(gulp.dest(config.directories.build));
+            .pipe(gulp.dest(config.directories.build, { sourcemaps: '.' }));
     };
 });
