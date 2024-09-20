@@ -53,7 +53,14 @@ config.tasks = {
                 '../../node_modules/alpinejs/dist/cdn.js',
             ],
         },
-    }
+    },
+
+    hash: {
+        src: build_directory + '**/*.{css,js}',
+        name: 'manifest.json',
+        dest: build_directory,
+        watch: build_directory + '**/*.{css,js}',
+    },
 };
 
 

@@ -89,6 +89,37 @@ Object.entries(config.tasks.js).forEach(([task_name, task_config]) => {
 
 
 
+// Hash tasks
+const hashConfig = config.tasks.hash;
+
+function generateHash() {
+    const hashsum = require('gulp-hashsum');
+
+    return gulp
+        .src(config.tasks.hash.src)
+        .pipe(hashsum({
+            filename: config.tasks.hash.dest + '/manifest.json',
+            json: true,
+        }));
+}
+function prettyHash() {
+    const jsonFormat = require('gulp-json-format');
+
+    return gulp
+        .src(hashConfig.dest + '/manifest.json')
+        .pipe(jsonFormat(4))
+        .pipe(gulp.dest(hashConfig.dest));
+}
+exports.hash = gulp.series(generateHash, prettyHash);
+
+watch_files.push([
+    'hash',
+    hashConfig.watch,
+    { ignoreInitial: true },
+]);
+
+
+
 // Build task
 exports['build'] = gulp.series(css_tasks.map((task) => exports[task]));
 
