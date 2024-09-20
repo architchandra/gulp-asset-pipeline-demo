@@ -7,9 +7,30 @@ const build_directory = config.directories.build;
 
 
 
+var copy_tasks = [];
 var css_tasks = [];
 var js_tasks = [];
 var watch_files = [];
+
+
+
+// Copy tasks
+Object.entries(config.tasks.copy).forEach(([task_name, task_config]) => {
+    task_name = 'copy-' + task_name;
+    copy_tasks.push(task_name);
+
+    watch_files.push([
+        task_name,
+        task_config.watch,
+        task_config.watch_config || {},
+    ]);
+
+    exports[task_name] = () => {
+        return gulp
+            .src(task_config.src)
+            .pipe(gulp.dest(config.directories.root));
+    };
+});
 
 
 

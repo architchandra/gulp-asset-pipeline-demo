@@ -4,8 +4,9 @@
 
 var config = {};
 
-// Build directory
+// Directory config
 config.directories = {};
+config.directories.root = '../../public';
 config.directories.build = '../../public/build';
 
 // Naming config
@@ -14,6 +15,16 @@ config.minify_suffix = '.min';
 
 
 config.tasks = {
+    copy: {
+        root: {
+            src: '../index.html',
+            dest: 'index.html',
+            watch: [
+                '../index.html'
+            ],
+        }
+    },
+
     css: {
         default: {
             src: 'css/main.css',
