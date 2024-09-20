@@ -8,6 +8,8 @@ var config = {};
 config.directories = {};
 config.directories.root = '../../public';
 config.directories.build = '../../public/build';
+const root_directory = config.directories.root;
+const build_directory = config.directories.build;
 
 // Naming config
 config.minify_suffix = '.min';
@@ -18,7 +20,7 @@ config.tasks = {
     copy: {
         root: {
             src: '../index.html',
-            dest: 'index.html',
+            dest: root_directory,
             watch: [
                 '../index.html'
             ],
@@ -28,7 +30,8 @@ config.tasks = {
     css: {
         default: {
             src: 'css/main.css',
-            dest: 'style.css',
+            dest: build_directory,
+            name: 'style.css',
             extra_config: {
                 tailwind: 'tailwind.config.js',
             },
@@ -44,7 +47,8 @@ config.tasks = {
             src: [
                 '../../node_modules/alpinejs/dist/cdn.js',
             ],
-            dest: 'alpine_bundle.js',
+            dest: build_directory,
+            name: 'alpine_bundle.js',
             watch: [
                 '../../node_modules/alpinejs/dist/cdn.js',
             ],

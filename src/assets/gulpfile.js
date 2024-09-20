@@ -3,8 +3,6 @@ const config = require('./gulp.config');
 const postcss = require('gulp-postcss');
 const rename = require('gulp-rename');
 
-const build_directory = config.directories.build;
-
 
 
 var copy_tasks = [];
@@ -28,7 +26,7 @@ Object.entries(config.tasks.copy).forEach(([task_name, task_config]) => {
     exports[task_name] = () => {
         return gulp
             .src(task_config.src)
-            .pipe(gulp.dest(config.directories.root));
+            .pipe(gulp.dest(task_config.dest));
     };
 });
 
@@ -48,7 +46,7 @@ Object.entries(config.tasks.css).forEach(([task_name, task_config]) => {
     exports[task_name] = () => {
         return gulp
             .src(task_config.src, { sourcemaps: true })
-            .pipe(rename(task_config.dest))
+            .pipe(rename(task_config.name))
             .pipe(postcss(
                 [
                     require('postcss-import'),
@@ -81,11 +79,11 @@ Object.entries(config.tasks.js).forEach(([task_name, task_config]) => {
     exports[task_name] = () => {
         return gulp
             .src(task_config.src, { sourcemaps: true })
-            .pipe(concat(task_config.dest))
-            .pipe(gulp.dest(build_directory))
+            .pipe(concat(task_config.name))
+            .pipe(gulp.dest(task_config.dest))
             .pipe(uglify())
             .pipe(rename({ suffix: config.minify_suffix }))
-            .pipe(gulp.dest(build_directory, { sourcemaps: '.' }))
+            .pipe(gulp.dest(task_config.dest, { sourcemaps: '.' }))
     };
 });
 
