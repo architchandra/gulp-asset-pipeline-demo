@@ -121,7 +121,11 @@ watch_files.push([
 
 
 // Build task
-exports['build'] = gulp.series(css_tasks.map((task) => exports[task]));
+exports['build'] = gulp.series(
+    css_tasks.map((task) => exports[task]),
+    js_tasks.map((task) => exports[task]),
+    exports.hash
+);
 
 
 
